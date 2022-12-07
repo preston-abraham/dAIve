@@ -3,7 +3,7 @@ import openai
 import streamlit as st
 
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
-openai.api_key = "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"
+openai.api_key = st.secrets['api_key']
 
 st.title('dAIve')
 
