@@ -1,3 +1,2 @@
-os
 openai
 streamlit
