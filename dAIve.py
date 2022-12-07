@@ -8,7 +8,7 @@ openai.api_key = st.secrets['api_key']
 st.title('dAIve')
 
 from PIL import Image
-image = Image.open('LocalData/dAIve.png')
+image = Image.open('dAIve.png')
 image = image.resize((100,100))
 st.image(image)
 
