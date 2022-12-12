@@ -38,8 +38,6 @@ if mode == 'Evil Dave':
     prefix = 'Respond to the following prompt like an evil version person who beleives the exact opposite of what Dave Ramsey thinks and wants me to make bad financial decision would respond, with some sarcasm and slight rudeness: '
 
 if st.button('Get answer'): 
-    if st.button('Get answer'): 
-    
     # Check if content is flaggable
     
     content_to_classify = q
