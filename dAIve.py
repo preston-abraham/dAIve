@@ -1,6 +1,7 @@
 import os
 import openai
 import streamlit as st
+import warnings
 
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
@@ -66,7 +67,7 @@ if st.button('Get answer'):
         a = response["choices"][0]["text"]
 
         st.markdown(a)
-        print('['+mode+':'+q + ',' + a+']')
+        warnings.warn('['+mode+':'+q + ',' + a+']')
     else:
         st.markdown("""
         Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive or inappropriate. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
