@@ -1,2 +1,3 @@
 openai
 streamlit
+gsheetsdb==x.x.x
