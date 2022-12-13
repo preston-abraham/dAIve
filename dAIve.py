@@ -8,8 +8,6 @@ openai.api_key = st.secrets['api_key']
 
 st.title('dAIve v1.1')
 
-st.markdown('***New Features**: Content Moderation, More finely-tuned model for better responses,Logging of questions and answers for further training*')
-
 from PIL import Image
 image = Image.open('dAIve.png')
 image = image.resize((100,100))
