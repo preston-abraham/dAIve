@@ -6,7 +6,7 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v1.1')
+st.title('dAIve v1.2')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -34,7 +34,7 @@ if mode == 'Dave':
 if mode == 'Radio Dave':
     prefix = 'Respond to the following prompt the way Dave Ramsey would respond on his radio show politely, as if you are him responding. Try to make it sound like Dave Ramsey sounds in tone and word choice. Make sure not to contradict yourself in the answer, and try to use Dave Ramseys catch-phrases but only if they really fit: '
 if mode == 'Evil Dave':
-    prefix = 'Respond to the following prompt like an evil version person who beleives the exact opposite of what Dave Ramsey thinks and wants me to make bad financial decision would respond, with some sarcasm and slight rudeness: '
+    prefix = 'Respond to the following prompt like an evil version person who beleives the exact opposite of what Dave Ramsey thinks and wants me to make bad financial decision would respond, with some sarcasm and slight rudeness. Sometimes use some slang when appropriate:'
 
 if st.button('Get answer'): 
     # Check if content is flaggable
@@ -70,3 +70,16 @@ if st.button('Get answer'):
         st.markdown("""
         Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive or inappropriate. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
 """)
+cols = st.columns(3)
+with cols[0]:
+    if st.button('This answer doesn\'t sound right'): 
+        warnings.warn('Rating:Bad')
+        print('Rating:Bad')
+with cols[1]:
+    if st.button('This answer is mostly right, but not completely'):
+        warnings.warn('Rating:Ok')
+        print('Rating:Ok')
+with cols[2]:
+    if st.button('This answer is exactly right!'):
+        warnings.warn('Rating:Good')
+        print('Rating:Good')
