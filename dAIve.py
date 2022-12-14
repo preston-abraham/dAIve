@@ -96,5 +96,5 @@ with cols[1]:
         print(st.session_state['key']+',Rating:Ok')
 with cols[2]:
     if st.button('This answer is exactly right!'):
-        warnings.warn((st.session_state['key']+',Rating:Good')
+        warnings.warn(st.session_state['key']+',Rating:Good')
         print(st.session_state['key']+',Rating:Good')
