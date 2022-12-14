@@ -6,7 +6,7 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v1.2.2')
+st.title('dAIve v1.3.0')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -65,7 +65,12 @@ if st.button('Get answer'):
         a = response["choices"][0]["text"]
 
         st.markdown(a)
-        warnings.warn('['+mode+':'+q + ',' + a+']')
+        if 'key' not in st.session_state:
+            st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
+            warnings.warn(st.session_state.key)
+        st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
+        warnings.warn(st.session_state.key)
+        
     else:
         st.markdown("""
         Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive or inappropriate. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
@@ -76,16 +81,20 @@ st.markdown("""
 
 ###### (All questions and answers are anonymous, this is just to help me learn, thanks!)
 """)
+
+if 'key' not in st.session_state:
+    st.session_state['key'] = ''
+
 cols = st.columns(3)
 with cols[0]:
     if st.button('This answer doesn\'t sound right'): 
-        warnings.warn('Rating:Bad')
-        print('Rating:Bad')
+        warnings.warn(st.session_state['key']+',Rating:Bad')
+        print(st.session_state['key']+',Rating:Bad')
 with cols[1]:
     if st.button('This answer is mostly right, but not completely'):
-        warnings.warn('Rating:Ok')
-        print('Rating:Ok')
+        warnings.warn(st.session_state['key']+',Rating:Ok')
+        print(st.session_state['key']+',Rating:Ok')
 with cols[2]:
     if st.button('This answer is exactly right!'):
-        warnings.warn('Rating:Good')
-        print('Rating:Good')
+        warnings.warn((st.session_state['key']+',Rating:Good')
+        print(st.session_state['key']+',Rating:Good')
