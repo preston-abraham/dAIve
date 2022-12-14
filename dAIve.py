@@ -6,7 +6,7 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v1.3.0')
+st.title('dAIve v1.3.1')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -72,9 +72,11 @@ if st.button('Get answer'):
         warnings.warn(st.session_state.key)
         
     else:
-        st.markdown("""
+        moderation = ("""
         Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive or inappropriate. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
 """)
+        st.session_state['key'] = moderation
+        st.markdown(moderation)
         
 st.markdown("""
 #### To help me learn to give better answers, after I give an answer please give me a rating by clicking one of the three buttons below.
