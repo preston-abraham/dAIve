@@ -2,11 +2,12 @@ import os
 import openai
 import streamlit as st
 import warnings
+import pandas as pd
 
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v1.3.4')
+st.title('dAIve v2.0.0')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -36,8 +37,22 @@ if mode == 'Radio Dave':
 if mode == 'Evil Dave':
     prefix = 'Respond to the following prompt like an evil version person who beleives the exact opposite of what Dave Ramsey thinks and wants me to make bad financial decision would respond, with some sarcasm and slight rudeness. Sometimes use some slang when appropriate:'
 
+advice = pd.read_csv('advice_topics.csv',index_col=0)
+
+full_topics = []
+for i in range(len(advice)):
+    for topic in advice.iloc[i]['topics'].strip('[]').split(', '):
+        if not topic[1:-1] in full_topics:
+            full_topics.append(topic[1:-1])
+full_topics.remove('')
+
+def intersection(lst1, lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3    
+    
+
 if st.button('Get answer'): 
-    # Check if content is flaggable
+     # Check if content is flaggable
     
     content_to_classify = q
 
@@ -54,14 +69,34 @@ if st.button('Get answer'):
     
     if str(output_label) == '0':
         
-        response = openai.Completion.create(
+        text = 'Of the following topics: ' + str(full_topics) + ', which 2 best fit the following question?\n If the baby steps are mentioned, make sure that topic is chosen. Respond with a comma-separated list'
+        
+        t_response = openai.Completion.create(
           model="text-davinci-003",
-          prompt = prefix + q,
-          temperature = 0.15,
+          prompt = text + q,
+          temperature = 0.0,
           top_p = 1,
-          max_tokens = 500
+          max_tokens = 500,
         )
 
+        topics = t_response["choices"][0]["text"].strip().lower().split(', ')
+        
+        context = []
+        for i in range(len(advice)):
+            tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
+            if len(intersection(topics,tl)) > 0:
+                context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
+        
+        preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+        
+        response = openai.Completion.create(
+          model="text-davinci-003",
+          prompt = preprefix + str(context) + prefix + q,
+          temperature = 0.15,
+          top_p = 1,
+          max_tokens = 500,
+        )
+        
         a = response["choices"][0]["text"]
 
         st.markdown(a)
