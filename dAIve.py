@@ -76,7 +76,7 @@ if st.button('Get answer'):
         
         f_response = openai.Completion.create(
           model="text-davinci-003",
-          prompt = 'Is the following question at all related to finances? respind with just yes or no: ' + q,
+          prompt = 'Is the following question at all related to finances,debt, or loans? respind with just yes or no: ' + q,
           temperature = 0.0,
           top_p = 1,
           max_tokens = 500,
