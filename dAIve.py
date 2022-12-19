@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.0.1')
+st.title('dAIve v2.0.2')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -92,7 +92,7 @@ if st.button('Get answer'):
 
         topics = t_response["choices"][0]["text"].strip().lower().split(', ')
         
-        context = []
+        context = [['Question: How are you doing?','Answer: Better than I deserve! How can I help today?']]
         for i in range(len(advice)):
             tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
             if len(intersection(topics,tl)) > 0:
