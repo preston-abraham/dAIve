@@ -95,24 +95,25 @@ if st.button('Get answer'):
           max_tokens = 500,
         )
         
+        if (f_response["choices"][0]["text"].strip().lower() == 'yes':
 
-        topics = t_response["choices"][0]["text"].strip().lower().split(', ')
-        warnings.warn(str(topics))
-        context = []
-        base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
-        for i in range(len(advice)):
-            tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
-            if len(intersection(topics,tl)) > 0:
-                context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
-        
-        preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
-        
-        af = ''
-        for t in topics:
-            if t in additional_facts.keys():
-                af += additional_facts[t]
-        
-        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + af + q
+            topics = t_response["choices"][0]["text"].strip().lower().split(', ')
+            warnings.warn(str(topics))
+            context = []
+            base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
+            for i in range(len(advice)):
+                tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
+                if len(intersection(topics,tl)) > 0:
+                    context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
+
+            preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+
+            af = ''
+            for t in topics:
+                if t in additional_facts.keys():
+                    af += additional_facts[t]
+
+        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + q
         
         response = openai.Completion.create(
           model="text-davinci-003",
