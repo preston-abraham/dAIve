@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.1.0')
+st.title('dAIve v2.2.0')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -18,6 +18,8 @@ st.image(image)
 text = """
 ## Person to Ask:
 **Dave** : Standard Dave
+
+**Ye Olde Dave** : Same Dave advice, but with a Shakespeare spin
 
 **Radio Dave** : Dave that tries to answer like he would on the radio show
 
@@ -32,12 +34,13 @@ additional_facts['debt'] = 'Never recommend ANY type of loan. No personal loans 
 
 st.markdown(text)
 
-mode = st.selectbox('Person to ask: ',['Dave','Radio Dave','Evil Dave'])
+mode = st.selectbox('Person to ask: ',['Dave','Ye Old Dave','Radio Dave','Evil Dave'])
 q = st.text_input('Question: ')
 
 if mode == 'Dave':
     prefix = 'Respond to the following prompt the way Dave Ramsey would respond, as if you are him responding. Try to make it sound like Dave Ramsey sounds: '
-    
+if mode == 'Ye Olde Dave':
+    prefix = 'Respond to the following prompt the way Dave Ramsey would respond, as if you are him responding. Try to make it sound like Dave Ramsey sounds but speak like Shakespeare: '
 if mode == 'Radio Dave':
     prefix = 'Respond to the following prompt the way Dave Ramsey would respond on his radio show politely, as if you are him responding. Try to make it sound like Dave Ramsey sounds in tone and word choice. Make sure not to contradict yourself in the answer, and try to use Dave Ramseys catch-phrases but only if they really fit: '
 if mode == 'Evil Dave':
