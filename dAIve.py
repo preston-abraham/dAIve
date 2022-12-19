@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.0.0')
+st.title('dAIve v2.0.1')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -69,6 +69,17 @@ if st.button('Get answer'):
     
     if str(output_label) == '0':
         
+        f_response = openai.Completion.create(
+          model="text-davinci-003",
+          prompt = 'Is the following question at all related to finances? respind with just yes or no: ' + q,
+          temperature = 0.0,
+          top_p = 1,
+          max_tokens = 500,
+        )
+        
+        
+            
+        
         text = 'Of the following topics: ' + str(full_topics) + ', which 2 best fit the following question?\n If the baby steps are mentioned, make sure that topic is chosen. Respond with a comma-separated list'
         
         t_response = openai.Completion.create(
@@ -89,9 +100,11 @@ if st.button('Get answer'):
         
         preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
         
+        prompt_input = preprefix + str(context) + prefix + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else prefix + q
+        
         response = openai.Completion.create(
           model="text-davinci-003",
-          prompt = preprefix + str(context) + prefix + q,
+          prompt = prompt_input,
           temperature = 0.15,
           top_p = 1,
           max_tokens = 500,
