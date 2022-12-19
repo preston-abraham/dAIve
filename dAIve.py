@@ -95,23 +95,22 @@ if st.button('Get answer'):
           max_tokens = 500,
         )
         
-        if ('yes' in f_response["choices"][0]["text"].strip().lower()):
 
-            topics = t_response["choices"][0]["text"].strip().lower().split(', ')
-            warnings.warn(str(topics))
-            context = []
-            
-            for i in range(len(advice)):
-                tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
-                if len(intersection(topics,tl)) > 0:
-                    context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
+        topics = t_response["choices"][0]["text"].strip().lower().split(', ')
+        warnings.warn(str(topics))
+        context = []
 
-            preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+        for i in range(len(advice)):
+            tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
+            if len(intersection(topics,tl)) > 0:
+                context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
 
-            af = ''
-            for t in topics:
-                if t in additional_facts.keys():
-                    af += additional_facts[t]
+        preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+
+        af = ''
+        for t in topics:
+            if t in additional_facts.keys():
+                af += additional_facts[t]
 
         base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
         prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + q
