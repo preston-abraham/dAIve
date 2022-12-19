@@ -89,8 +89,10 @@ if st.button('Get answer'):
           top_p = 1,
           max_tokens = 500,
         )
+        
 
         topics = t_response["choices"][0]["text"].strip().lower().split(', ')
+        warnings.warn(topics)
         context = []
         base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
         for i in range(len(advice)):
