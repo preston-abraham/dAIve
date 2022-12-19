@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.0.5')
+st.title('dAIve v2.0.6')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -80,7 +80,7 @@ if st.button('Get answer'):
         
             
         
-        text = 'Of the following topics: ' + str(full_topics) + ', which 2 best fit the following question?\n If the baby steps are mentioned, make sure that topic is chosen. Respond with a comma-separated list'
+        text = 'Of the following topics: ' + str(full_topics) + ', which 2 best fit the following question?\n If spouses are mentioned, marriage should be chosen, If the baby steps are mentioned, make sure that topic is chosen. Respond with a comma-separated list'
         
         t_response = openai.Completion.create(
           model="text-davinci-003",
