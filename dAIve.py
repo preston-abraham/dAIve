@@ -95,7 +95,7 @@ if st.button('Get answer'):
           max_tokens = 500,
         )
         
-        if (f_response["choices"][0]["text"].strip().lower() == 'yes'):
+        if ('yes' in f_response["choices"][0]["text"].strip().lower()):
 
             topics = t_response["choices"][0]["text"].strip().lower().split(', ')
             warnings.warn(str(topics))
