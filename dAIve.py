@@ -92,7 +92,7 @@ if st.button('Get answer'):
         
 
         topics = t_response["choices"][0]["text"].strip().lower().split(', ')
-        warnings.warn(topics)
+        warnings.warn(str(topics))
         context = []
         base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
         for i in range(len(advice)):
