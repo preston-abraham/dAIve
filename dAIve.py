@@ -125,7 +125,7 @@ if st.button('Get answer'):
         )
         
         a = response["choices"][0]["text"]
-        st.markdown(a.replace('$','/$'))
+        st.markdown(a.replace('$','\$'))
         if 'key' not in st.session_state:
             st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
             warnings.warn(st.session_state.key)
