@@ -28,7 +28,7 @@ text = """
 additional_facts = {}
 
 additional_facts['marriage'] = 'Married couples need to have joint bank accounts (unless your spouse is an addict). It\'s important to have a unified financial plan and to be on the same page when it comes to money. That way, you can work together to reach your financial goals and build wealth.'
-additional_facts['debt'] = 'Never reccomend any type of loan'
+additional_facts['debt'] = 'Never recommend ANY type of loan, no personal loans or credit unions, even as an alternative to worse loans'
 
 st.markdown(text)
 
