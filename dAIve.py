@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.0.6')
+st.title('dAIve v2.1.0')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -24,6 +24,11 @@ text = """
 **Evil Dave** : Opposite version of Dave Ramsey who doesn't have your best interests in mind
 
 """
+
+additional_facts = {}
+
+additional_facts['marriage'] = 'Married couples need to have joint bank accounts (unless your spouse is an addict). It\'s important to have a unified financial plan and to be on the same page when it comes to money. That way, you can work together to reach your financial goals and build wealth.'
+
 st.markdown(text)
 
 mode = st.selectbox('Person to ask: ',['Dave','Radio Dave','Evil Dave'])
@@ -102,7 +107,12 @@ if st.button('Get answer'):
         
         preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
         
-        prompt_input = preprefix + str(context) + prefix + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + q
+        af = ''
+        for t in topics:
+            if t in additional_facts.keys():
+                af += additional_facts[t]
+        
+        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + af + q
         
         response = openai.Completion.create(
           model="text-davinci-003",
