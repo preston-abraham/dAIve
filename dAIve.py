@@ -7,7 +7,7 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.0.4')
+st.title('dAIve v2.0.5')
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -100,7 +100,7 @@ if st.button('Get answer'):
         
         preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
         
-        prompt_input = preprefix + str(context) + prefix + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else preprefix + str(base_context) + prefix + q
+        prompt_input = preprefix + str(context) + prefix + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + q
         
         response = openai.Completion.create(
           model="text-davinci-003",
