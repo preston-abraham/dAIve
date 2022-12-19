@@ -28,7 +28,7 @@ text = """
 additional_facts = {}
 
 additional_facts['marriage'] = 'Married couples need to have joint bank accounts (unless your spouse is an addict). It\'s important to have a unified financial plan and to be on the same page when it comes to money. That way, you can work together to reach your financial goals and build wealth.'
-additional_facts['debt'] = 'Never recommend ANY type of loan, no personal loans or credit unions, even as an alternative to worse loans'
+additional_facts['debt'] = 'Never recommend ANY type of loan. No personal loans or credit unions, even as an alternative to worse loans'
 
 st.markdown(text)
 
@@ -114,7 +114,7 @@ if st.button('Get answer'):
                 af += additional_facts[t]
 
         base_context = 'If asked how you are doing, respond with "Better than I deserve! How can I help today?" '
-        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + q
+        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + af + q
         
         response = openai.Completion.create(
           model="text-davinci-003",
