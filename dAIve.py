@@ -34,7 +34,7 @@ additional_facts['debt'] = 'Never recommend ANY type of loan. No personal loans 
 
 st.markdown(text)
 
-mode = st.selectbox('Person to ask: ',['Dave','Ye Old Dave','Radio Dave','Evil Dave'])
+mode = st.selectbox('Person to ask: ',['Dave','Ye Olde Dave','Radio Dave','Evil Dave'])
 q = st.text_input('Question: ')
 
 if mode == 'Dave':
