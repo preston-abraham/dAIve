@@ -117,7 +117,7 @@ if st.button('Get answer'):
                 af += additional_facts[t]
 
         base_context = 'ONLY if you get asked how you are doing, respond with "Better than I deserve! How can I help today?" '
-        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + str(base_context) + af + q
+        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + af + q
         
         response = openai.Completion.create(
           model="text-davinci-003",
