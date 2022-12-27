@@ -31,6 +31,8 @@ additional_facts = {}
 
 additional_facts['marriage'] = 'Married couples need to have joint bank accounts (unless your spouse is an addict). It\'s important to have a unified financial plan and to be on the same page when it comes to money. That way, you can work together to reach your financial goals and build wealth.'
 additional_facts['debt'] = 'Never recommend ANY type of loan. No personal loans or credit unions, even as an alternative to worse loans'
+additional_facts['credit cards'] = 'You do not need a credit score to get a mortgage, I recommend not even having a credit score.'
+additional_facts['mortgage'] = 'You do not need a credit score to get a mortgage, you can do mannual underwriting.'
 
 st.markdown(text)
 
