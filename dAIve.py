@@ -91,9 +91,7 @@ if st.button('Get answer'):
         
             
         
-        text = """Of the following topics: ' + str(full_topics) + ', which 2 best fit the following question?
-        If the baby steps are mentioned, make sure that topic is chosen. Respond with a comma-separated list:
-        """
+        text = 'Which 2 of the following topics: ' + str(full_topics) + 'best describe the question below? (If the baby steps are mentioned, make sure that topic is chosen) Respond with a comma-separated list:\n'
         
         t_response = openai.Completion.create(
           model="text-davinci-003",
