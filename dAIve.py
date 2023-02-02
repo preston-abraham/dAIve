@@ -91,7 +91,7 @@ if st.button('Get answer'):
         
             
         
-        text = 'Which 2 of the following topics: ' + str(full_topics) + 'best describe the question below? (If the baby steps are mentioned, make sure that topic is chosen) Respond with a comma-separated list:\n'
+        text = 'Which 2 of the following topics: ' + str(full_topics) + 'best describe the question below? (If the baby steps are mentioned, make sure that topic is chosen) Respond with a semicolon-separated list:\n'
         
         t_response = openai.Completion.create(
           model="text-davinci-003",
@@ -102,7 +102,7 @@ if st.button('Get answer'):
         )
         
 
-        topics = t_response["choices"][0]["text"].strip().lower().split(', ')
+        topics = t_response["choices"][0]["text"].strip().lower().split(';')
         warnings.warn(str(topics))
         context = []
 
