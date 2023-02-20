@@ -7,7 +7,14 @@ import pandas as pd
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve v2.2.0')
+st.title('dAIve v2.3.0')
+
+def stream(text):
+    t = text.split(' ')
+    mo = st.markdown('')
+    for i in range(len(t)+1):
+        mo.markdown(" ".join(t[:i]))
+        time.sleep(0.1)
 
 from PIL import Image
 image = Image.open('dAIve.png')
@@ -63,89 +70,90 @@ def intersection(lst1, lst2):
     
 
 if st.button('Get answer'): 
-     # Check if content is flaggable
-    
-    content_to_classify = q
+    with st.spinner('Generating Answer'):
+         # Check if content is flaggable
 
-    response_flag = openai.Completion.create(
-      model="content-filter-alpha",
-      prompt = "<|endoftext|>"+content_to_classify+"\n--\nLabel:",
-      temperature=0,
-      max_tokens=1,
-      top_p=0,
-      logprobs=10
-    )
-    
-    output_label = response_flag["choices"][0]["text"]
-    
-    if str(output_label) == '0':
-        
-        f_response = openai.Completion.create(
-          model="text-davinci-003",
-          prompt = 'Is the following question at all related to finances,debt, or loans? respind with just yes or no: ' + q,
-          temperature = 0.0,
-          top_p = 1,
-          max_tokens = 500,
+        content_to_classify = q
+
+        response_flag = openai.Completion.create(
+          model="content-filter-alpha",
+          prompt = "<|endoftext|>"+content_to_classify+"\n--\nLabel:",
+          temperature=0,
+          max_tokens=1,
+          top_p=0,
+          logprobs=10
         )
-        
-        
-            
-        
-        text = 'Which 2 of the following topics: ' + str(full_topics) + 'best describe the question below? (If the baby steps are mentioned, make sure that topic is chosen) Respond with a semicolon-separated list:\n'
-        
-        t_response = openai.Completion.create(
-          model="text-davinci-003",
-          prompt = text + q,
-          temperature = 0.0,
-          top_p = 1,
-          max_tokens = 500,
-        )
-        
 
-        topics = t_response["choices"][0]["text"].strip().lower().split(';')
-        warnings.warn(str(topics))
-        context = []
+        output_label = response_flag["choices"][0]["text"]
 
-        for i in range(len(advice)):
-            tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
-            if len(intersection(topics,tl)) > 0:
-                context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
+        if str(output_label) == '0':
 
-        preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+            f_response = openai.Completion.create(
+              model="text-davinci-003",
+              prompt = 'Is the following question at all related to finances,debt, or loans? respind with just yes or no: ' + q,
+              temperature = 0.0,
+              top_p = 1,
+              max_tokens = 500,
+            )
 
-        af = ''
-        for t in topics:
-            if t in additional_facts.keys():
-                af += additional_facts[t]
-        base_context = ''
-        if 'how are you?' in q.lower() or 'how are you doing' in q.lower():
-            base_context = 'Start the response with "Better than I deserve!"'
-            
-        prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + base_context + af + q
-        
-        response = openai.Completion.create(
-          model="text-davinci-003",
-          prompt = prompt_input,
-          temperature = 0.15,
-          top_p = 1,
-          max_tokens = 500,
-        )
-        
-        a = response["choices"][0]["text"]
-        st.markdown(a.replace('$','\$'))
-        if 'key' not in st.session_state:
+
+
+
+            text = 'Which 2 of the following topics: ' + str(full_topics) + 'best describe the question below? (If the baby steps are mentioned, make sure that topic is chosen) Respond with a semicolon-separated list:\n'
+
+            t_response = openai.Completion.create(
+              model="text-davinci-003",
+              prompt = text + q,
+              temperature = 0.0,
+              top_p = 1,
+              max_tokens = 500,
+            )
+
+
+            topics = t_response["choices"][0]["text"].strip().lower().split(';')
+            warnings.warn(str(topics))
+            context = []
+
+            for i in range(len(advice)):
+                tl = [t[1:-1] for t in advice.iloc[i]['topics'].strip('[]').split(', ')]
+                if len(intersection(topics,tl)) > 0:
+                    context.append(['question: ' + advice.iloc[i]['prompt'],'answer: ' + advice.iloc[i]['completion']])
+
+            preprefix = 'Given the following examples of questions and answers from Dave Ramsey:\n'
+
+            af = ''
+            for t in topics:
+                if t in additional_facts.keys():
+                    af += additional_facts[t]
+            base_context = ''
+            if 'how are you?' in q.lower() or 'how are you doing' in q.lower():
+                base_context = 'Start the response with "Better than I deserve!"'
+
+            prompt_input = preprefix + str(context) + prefix + af + q if (f_response["choices"][0]["text"].strip().lower() == 'yes' and mode != 'Evil Dave') else  prefix + base_context + af + q
+
+            response = openai.Completion.create(
+              model="text-davinci-003",
+              prompt = prompt_input,
+              temperature = 0.15,
+              top_p = 1,
+              max_tokens = 500,
+            )
+
+            a = response["choices"][0]["text"]
+            stream(a.replace('$','\$'))
+            if 'key' not in st.session_state:
+                st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
+                warnings.warn(st.session_state.key)
             st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
             warnings.warn(st.session_state.key)
-        st.session_state['key'] = '['+mode+':'+q + ',' + a+']'
-        warnings.warn(st.session_state.key)
-        
-    else:
-        moderation = ("""
-        Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive, inappropriate, or that may relate to sensitive topics. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
-""")
-        st.session_state['key'] = moderation
-        warnings.warn(mode+':'+q + ',' + st.session_state.key)
-        st.markdown(moderation)
+
+        else:
+            moderation = ("""
+            Hey there, I'm dAIve and I'm here to help you with your financial questions. However, I'm sorry but I'm not able to answer that question for you. It goes against my programming to provide responses that may be considered offensive, inappropriate, or that may relate to sensitive topics. I'm here to help you make smart financial decisions, so if you have any other questions, I'm here to assist you within the parameters of my abilities.
+    """)
+            st.session_state['key'] = moderation
+            warnings.warn(mode+':'+q + ',' + st.session_state.key)
+            stream(moderation)
         
 st.markdown("""
 #### To help me learn to give better answers, after I give an answer please give me a rating by clicking one of the three buttons below.
