@@ -44,7 +44,7 @@ additional_facts['mortgage'] = 'You do not need a credit score to get a mortgage
 
 st.markdown(text)
 
-with st.expander('Sample Questions):
+with st.expander('Sample Questions'):
     sq = """
     What if I want to buy a house that is more than 25% of my income. Everything is just too expensive.
     
