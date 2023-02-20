@@ -44,6 +44,16 @@ additional_facts['mortgage'] = 'You do not need a credit score to get a mortgage
 
 st.markdown(text)
 
+with st.expander('Sample Questions):
+    sq = """
+    What if I want to buy a house that is more than 25% of my income. Everything is just too expensive.
+    
+    Should I refinance my car to go on vacation?
+    
+    Should I use a credit card for emergencies?
+    """
+    st.markdown(sq)
+
 mode = st.selectbox('Person to ask: ',['Dave','Ye Olde Dave','Radio Dave','Evil Dave'])
 q = st.text_input('Question: ')
 
