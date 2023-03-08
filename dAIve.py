@@ -16,7 +16,7 @@ image = Image.open('dAIve.png')
 image = image.resize((100,100))
 st.image(image)
 
-mode = st.selectbox('Person to ask: (When changing this, please reset the conversation)',['Dave','Ye Olde Dave','Radio Dave','Evil Dave'])
+mode = st.selectbox('Person to ask: (When changing this, please reset the conversation)',['Dave','Ye Olde Dave','Radio Dave','Evil Dave'],on_change = st.experimental_rerun())
 
 def stream(text):
     t = text.split(' ')
