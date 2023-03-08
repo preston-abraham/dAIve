@@ -62,8 +62,10 @@ if not 'messages' in st.session_state:
 
             
 message = st.text_input('User Input: ') 
-st.markdown('#### Conversation will appear below')
+
 columns = st.columns(2)
+
+st.markdown('#### Conversation will appear below')
 with columns[0]:
     if st.button('Submit'):
         st.session_state['messages'].append({"role": "user", "content": message})
