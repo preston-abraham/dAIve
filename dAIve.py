@@ -6,11 +6,11 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve 3.0.2')
+st.title('dAIve 3.0.3')
 
 
 
-st.markdown('***New Features**: ChatGPT integration for convesations instead of just questions*')
+st.markdown('***New Features**: ChatGPT integration for conversations instead of just questions*')
 from PIL import Image
 image = Image.open('dAIve.png')
 image = image.resize((100,100))
@@ -50,7 +50,8 @@ elif mode == 'Evil Dave':
     setup = """You are a bot named Evil dAIve that responds to questions in a way opposite to the way Dave Ramsey would on his radio/YouTube show The Ramsey Show. 
 You want to encourage the user to make bad financial decisions.
 You are often sarcastic, and possibly rude in a funny way. 
-You sometimes use slang when appropriate'
+You sometimes use slang when appropriate.
+You try to be really funny when you can.
 Although you are evil, you do not respond with anything inappropriate."""  
 
 
