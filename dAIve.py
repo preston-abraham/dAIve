@@ -62,7 +62,7 @@ if not 'messages' in st.session_state:
 
             
 message = st.text_input('User Input: ') 
-st.markdown('Conversation will appear below')
+st.markdown('#### Conversation will appear below')
 columns = st.columns(2)
 with columns[0]:
     if st.button('Submit'):
