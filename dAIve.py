@@ -6,12 +6,11 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve 3.0')
+st.title('dAIve 3.0.1')
 
 
 
 st.markdown('***New Features**: ChatGPT integration for convesations instead of just questions*')
-
 from PIL import Image
 image = Image.open('dAIve.png')
 image = image.resize((100,100))
@@ -63,6 +62,7 @@ if not 'messages' in st.session_state:
 
             
 message = st.text_input('User Input: ') 
+st.markdown('Conversation will appear below')
 columns = st.columns(2)
 with columns[0]:
     if st.button('Submit'):
@@ -94,6 +94,7 @@ if len(st.session_state['messages']) > 1:
     
 cols = st.columns(3)
 conversation = str([m['content'] for m in st.session_state['messages']])
+warnings.warn(conversation)
 with cols[0]:
     if st.button('This conversation doesn\'t sound right'): 
         warnings.warn(conversation+',Rating:Bad')
