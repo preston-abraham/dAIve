@@ -6,7 +6,7 @@ import warnings
 openai.organization = "org-eptWwJzwl8LLZVNyAH1xBxbF"
 openai.api_key = st.secrets['api_key']
 
-st.title('dAIve 3.0.1')
+st.title('dAIve 3.0.2')
 
 
 
@@ -66,6 +66,7 @@ message = st.text_input('User Input: ')
 columns = st.columns(2)
 
 st.markdown('#### Conversation will appear below')
+conversation = str([m['content'] for m in st.session_state['messages']])
 
 with columns[0]:
     if st.button('Submit'):
@@ -76,11 +77,13 @@ with columns[0]:
         )['choices'][0]['message']['content']
         st.session_state['messages'].append({"role": "assistant","content":st.session_state['response']})
         messages = st.session_state['messages']
+        warnings.warn(conversation)
         st.experimental_rerun()
 with columns[1]:
     if st.button('Reset Conversation'):
         st.session_state['messages'] = [{"role": "system", "content": setup}]
         st.session_state['response'] = ''
+        warnings.warn(conversation)
         st.experimental_rerun()
 if not 'lsr' in st.session_state:
     st.session_state['lsr'] = ''
@@ -96,8 +99,7 @@ if len(st.session_state['messages']) > 1:
     st.session_state['lsr'] = st.session_state['messages'][-1]['content']
     
 cols = st.columns(3)
-conversation = str([m['content'] for m in st.session_state['messages']])
-warnings.warn(conversation)
+
 with cols[0]:
     if st.button('This conversation doesn\'t sound right'): 
         warnings.warn(conversation+',Rating:Bad')
